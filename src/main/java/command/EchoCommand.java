@@ -1,9 +1,12 @@
 package command;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import shell.CommandMap;
 
-public class EchoCommand implements Command {
+public class EchoCommand extends Command {
+
+    public EchoCommand(CommandMap commandMap) {
+        super(commandMap);
+    }
 
     @Override
     public void execute(String... args) {

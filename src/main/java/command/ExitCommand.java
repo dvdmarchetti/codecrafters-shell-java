@@ -1,6 +1,12 @@
 package command;
 
-public class ExitCommand implements Command {
+import shell.CommandMap;
+
+public class ExitCommand extends Command {
+
+    public ExitCommand(CommandMap commandMap) {
+        super(commandMap);
+    }
 
     @Override
     public void execute(String... args) {

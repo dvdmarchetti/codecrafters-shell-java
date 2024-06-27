@@ -1,7 +1,15 @@
 package command;
 
-public interface Command {
+import shell.CommandMap;
 
-    void execute(String... args);
+public abstract class Command {
+
+    protected final CommandMap commandMap;
+
+    public Command(CommandMap commandMap) {
+        this.commandMap = commandMap;
+    }
+
+    public abstract void execute(String... args);
 
 }
