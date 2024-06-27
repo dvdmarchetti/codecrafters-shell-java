@@ -14,4 +14,8 @@ public class ExitCommand extends Command implements ShellCommand {
         System.exit(exitCode);
     }
 
+    public String toString() {
+        return "exit";
+    }
+
 }

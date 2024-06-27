@@ -1,16 +1,21 @@
 package shell;
 
 import command.Command;
+import command.ExecutableCommand;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CommandMap {
+    private final String[] pathDirectories;
     private final Map<String, Command> commands;
 
-    public CommandMap() {
+    public CommandMap(String[] pathDirectories) {
+        this.pathDirectories = pathDirectories;
         this.commands = new HashMap<>();
     }
 
@@ -29,6 +34,20 @@ public class CommandMap {
     }
 
     public Command get(String key) {
-        return commands.getOrDefault(key, null);
+        if (commands.containsKey(key)) {
+            return commands.get(key);
+        }
+
+        for (String path : pathDirectories) {
+            Path executable = Paths.get(path, key);
+
+            if (executable.toFile().canExecute()) {
+                Command command = new ExecutableCommand(executable, this);
+                this.register(executable.getFileName().toString(), command);
+                return command;
+            }
+        }
+
+        return null;
     }
 }

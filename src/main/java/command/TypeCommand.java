@@ -22,4 +22,8 @@ public class TypeCommand extends Command implements ShellCommand {
         }
     }
 
+    public String toString() {
+        return "type";
+    }
+
 }

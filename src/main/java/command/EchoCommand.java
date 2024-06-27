@@ -13,4 +13,7 @@ public class EchoCommand extends Command implements ShellCommand {
         System.out.println(String.join(" ", args));
     }
 
+    public String toString() {
+        return "echo";
+    }
 }

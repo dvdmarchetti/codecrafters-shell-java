@@ -1,47 +1,28 @@
 package shell;
 
-import command.*;
+import command.Command;
+import command.EchoCommand;
+import command.ExitCommand;
+import command.TypeCommand;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class Application {
     private final CommandMap commandMap;
 
     public Application(String envPath) {
-        this.commandMap = new CommandMap();
+        String[] paths = envPath.split(File.pathSeparator);
+        this.commandMap = new CommandMap(paths);
 
         registerShellBuiltin();
-        discoverExecutables(envPath);
     }
 
     private void registerShellBuiltin() {
         commandMap.register("exit", ExitCommand.class);
         commandMap.register("echo", EchoCommand.class);
         commandMap.register("type", TypeCommand.class);
-    }
-
-    private void discoverExecutables(String envPath) {
-        String[] paths = envPath.split(File.pathSeparator);
-
-        for (String path : paths) {
-            try (Stream<Path> walk = Files.list(Paths.get(path))) {
-                walk.filter(Files::isRegularFile)
-                        .filter(p -> p.toFile().canExecute())
-                        .forEach(file -> {
-                            Command command = new ExecutableCommand(file, commandMap);
-                            commandMap.register(file.getFileName().toString(), command);
-                        });
-            } catch (IOException e) {
-                // Skip invalid folder. No prints as output is verified
-            }
-        }
     }
 
     public void run() {
@@ -68,4 +49,5 @@ public class Application {
             command.execute(commandArgs);
         }
     }
+
 }
