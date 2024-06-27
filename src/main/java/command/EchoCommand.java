@@ -2,7 +2,7 @@ package command;
 
 import shell.CommandMap;
 
-public class EchoCommand extends Command {
+public class EchoCommand extends Command implements ShellCommand {
 
     public EchoCommand(CommandMap commandMap) {
         super(commandMap);

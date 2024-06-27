@@ -18,10 +18,14 @@ public class CommandMap {
         try {
             Constructor<? extends Command> constructor = command.getConstructor(CommandMap.class);
             Command instance = constructor.newInstance(this);
-            this.commands.putIfAbsent(key, instance);
+            register(key, instance);
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("An error occurred while instantiating command.", e);
         }
+    }
+
+    public void register(String key, Command command) {
+        this.commands.putIfAbsent(key, command);
     }
 
     public Command get(String key) {
