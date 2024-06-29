@@ -11,10 +11,13 @@ public class Application {
     private final CommandMap commandMap;
     private final FilesystemContext context;
 
-    public Application(String envPath, String bootDir) {
+    public Application(String envPath, String bootDir, String homeDir) {
         String[] paths = envPath.split(File.pathSeparator);
         this.commandMap = new CommandMap(paths);
-        this.context = new FilesystemContext(bootDir);
+        this.context = FilesystemContext.builder()
+                .bootDirectory(bootDir)
+                .homeDirectory(homeDir)
+                .build();
 
         registerShellBuiltin();
     }
@@ -24,6 +27,7 @@ public class Application {
         commandMap.register("echo", EchoCommand.class);
         commandMap.register("type", TypeCommand.class);
         commandMap.register("pwd", new PwdCommand(commandMap, context));
+        commandMap.register("cd", new CdCommand(commandMap, context));
     }
 
     public void run() {
