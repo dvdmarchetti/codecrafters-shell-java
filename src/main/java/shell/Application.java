@@ -1,9 +1,7 @@
 package shell;
 
-import command.Command;
-import command.EchoCommand;
-import command.ExitCommand;
-import command.TypeCommand;
+import command.*;
+import context.FilesystemContext;
 
 import java.io.File;
 import java.util.Arrays;
@@ -11,10 +9,12 @@ import java.util.Scanner;
 
 public class Application {
     private final CommandMap commandMap;
+    private final FilesystemContext context;
 
-    public Application(String envPath) {
+    public Application(String envPath, String bootDir) {
         String[] paths = envPath.split(File.pathSeparator);
         this.commandMap = new CommandMap(paths);
+        this.context = new FilesystemContext(bootDir);
 
         registerShellBuiltin();
     }
@@ -23,6 +23,7 @@ public class Application {
         commandMap.register("exit", ExitCommand.class);
         commandMap.register("echo", EchoCommand.class);
         commandMap.register("type", TypeCommand.class);
+        commandMap.register("pwd", new PwdCommand(commandMap, context));
     }
 
     public void run() {

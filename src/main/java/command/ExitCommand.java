@@ -2,7 +2,7 @@ package command;
 
 import shell.CommandMap;
 
-public class ExitCommand extends Command implements ShellCommand {
+public class ExitCommand extends Command implements BuiltinCommand {
 
     public ExitCommand(CommandMap commandMap) {
         super(commandMap);

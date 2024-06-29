@@ -1,7 +1,7 @@
 package shell;
 
 import command.Command;
-import command.ExecutableCommand;
+import command.RuntimeCommand;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -42,7 +42,7 @@ public class CommandMap {
             Path executable = Paths.get(path, key);
 
             if (executable.toFile().canExecute()) {
-                Command command = new ExecutableCommand(executable, this);
+                Command command = new RuntimeCommand(executable, this);
                 this.register(executable.getFileName().toString(), command);
                 return command;
             }

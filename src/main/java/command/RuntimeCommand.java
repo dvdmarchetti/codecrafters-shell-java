@@ -9,10 +9,10 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.nio.file.Path;
 
-public class ExecutableCommand extends Command {
+public class RuntimeCommand extends Command {
     private final Path path;
 
-    public ExecutableCommand(Path path, CommandMap commandMap) {
+    public RuntimeCommand(Path path, CommandMap commandMap) {
         super(commandMap);
         this.path = path;
     }
